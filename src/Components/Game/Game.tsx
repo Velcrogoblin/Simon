@@ -33,7 +33,9 @@ export const Game = () => {
   ]);
 
   useEffect(() => {
-    showSequence();
+    setTimeout (() => {
+      showSequence();
+    }, 400);
   }, [sequence])
 
 
@@ -118,6 +120,7 @@ export const Game = () => {
 
 
   return (
+    <div className = {styles.outer}>
     <div className={styles.container}>
       <div
         className={styles.colors}
@@ -143,6 +146,7 @@ export const Game = () => {
         style={{ backgroundImage: `url(${blue})` }}
         onClick= {play === true ? handleMove : undefined}
       ></div>
+    </div>
     </div>
   );
 };
