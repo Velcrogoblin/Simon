@@ -28,6 +28,7 @@ export const Game = () => {
 
   const [position, setPosition] = useState<number>(0);
   const [play, setPlay] = useState<boolean>(false);
+  const [score, setScore] = useState<number>(0);
   const [sequence, setSequence] = useState<number[]>([
     Math.floor(Math.random() * (5 - 1)) + 1,
   ]);
@@ -109,12 +110,16 @@ export const Game = () => {
       if (position === sequence.length - 1) {
         setSequence([...sequence, Math.floor(Math.random() * (5 - 1)) + 1]);
         setPosition(0);
+        setScore(score + 1);
+        console.log(score);
       } else {
         setPosition(position + 1);
       }
     } else {
       setPosition(0);
       setSequence([Math.floor(Math.random() * (5 - 1)) + 1]);
+      setScore(0);
+      console.log(score);
     }
   };
 
@@ -146,6 +151,9 @@ export const Game = () => {
         style={{ backgroundImage: `url(${blue})` }}
         onClick= {play === true ? handleMove : undefined}
       ></div>
+    </div>
+    <div className = {styles.score}>
+      <span>{`SCORE: ${score}`}</span>
     </div>
     </div>
   );
