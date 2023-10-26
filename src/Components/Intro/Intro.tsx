@@ -9,7 +9,7 @@ export const Intro = () => {
                 <img src = {logo}></img>
             </div>
             <div className = {styles.menu}>
-                <Link to = "/game" style={{ textDecoration: 'none' }}><span>START GAME</span></Link>
+                <Link to = "/game" className = {styles.links}><span>START GAME</span></Link>
                 <span>LEADERBOARD</span>
             </div>
             <div className = {styles.credits}>

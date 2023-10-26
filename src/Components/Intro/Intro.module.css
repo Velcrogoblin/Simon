@@ -23,6 +23,11 @@
   width: 100%;
 }
 
+.links {
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
 .menu span {
   margin-bottom: 20px;
   font-family: "pixelfont";
