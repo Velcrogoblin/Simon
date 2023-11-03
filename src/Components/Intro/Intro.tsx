@@ -10,7 +10,7 @@ export const Intro = () => {
             </div>
             <div className = {styles.menu}>
                 <Link to = "/game" className = {styles.links}><span>START GAME</span></Link>
-                <span>LEADERBOARD</span>
+                <Link to = "/leaderBoard" className = {styles.links}><span></span><span>LEADERBOARD</span></Link>
             </div>
             <div className = {styles.credits}>
                 <span>2023 / VELCROGOBLIN</span>

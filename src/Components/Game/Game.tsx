@@ -1,3 +1,7 @@
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+const VITE_URL_PLAYERS = import.meta.env.VITE_URL_PLAYERS;
+
 import uno from "../../Media/Images/1.png";
 import unoLuz from "../../Media/Images/1luz.png";
 import dos from "../../Media/Images/2.png";
@@ -21,6 +25,7 @@ import {
 } from "react";
 
 export const Game = () => {
+  const [leaderBoard, setLeaderBoard] = useState<Players[]>();
   const [green, setGreen] = useState<string>(uno);
   const [red, setRed] = useState<string>(dos);
   const [yellow, setYellow] = useState<string>(tres);
@@ -33,12 +38,26 @@ export const Game = () => {
     Math.floor(Math.random() * (5 - 1)) + 1,
   ]);
 
+  const navigate = useNavigate();
+
+  useEffect (() => {
+    axios.get(VITE_URL_PLAYERS)
+    .then ((res) => {
+      setLeaderBoard(res.data.sort((r1: Players, r2: Players) => (r1.score < r2.score) ? 1 : (r1.score > r2.score) ? -1 : 0))
+    })
+  },[])
+
   useEffect(() => {
-    setTimeout (() => {
+    setTimeout(() => {
       showSequence();
     }, 400);
-  }, [sequence])
+  }, [sequence]);
 
+  type Players = {
+    id: number,
+    name: string,
+    score: number
+  }
 
   type Color = {
     on: string;
@@ -53,28 +72,28 @@ export const Game = () => {
     on: unoLuz,
     off: uno,
     setter: setGreen,
-    sound: new Audio(greenSound)
+    sound: new Audio(greenSound),
   });
 
   colors.set("2", {
     on: dosLuz,
     off: dos,
     setter: setRed,
-    sound: new Audio(redSound)
+    sound: new Audio(redSound),
   });
 
   colors.set("3", {
     on: tresLuz,
     off: tres,
     setter: setYellow,
-    sound: new Audio(yellowSound)
+    sound: new Audio(yellowSound),
   });
 
   colors.set("4", {
     on: cuatroLuz,
     off: cuatro,
     setter: setBlue,
-    sound: new Audio(blueSound)
+    sound: new Audio(blueSound),
   });
 
   const handleLights = (c: Color | undefined) => {
@@ -85,22 +104,33 @@ export const Game = () => {
     }, 400);
   };
 
+  const checkHighScore = () => {
+    const lowerScore: Players | undefined = leaderBoard?.find((p) => p.score < score);
+    if (lowerScore !== undefined) {
+      sessionStorage.setItem("player", JSON.stringify(lowerScore.id));
+      sessionStorage.setItem("score", JSON.stringify(score));
+      navigate("/highScore");
+    }
+  }
+
   const showSequence = () => {
     setPlay(false);
     let sequenceAux: number = 0;
-      let interval = setInterval(() => {
-        if (sequenceAux < sequence.length) {
-          const c: Color | undefined = colors.get(sequence[sequenceAux]?.toString());
-          handleLights(c);
-          sequenceAux = sequenceAux + 1;
-        } else {
-          clearInterval(interval);
-         setPlay(true);
-        }
-    }, 600)
-  }
+    let interval = setInterval(() => {
+      if (sequenceAux < sequence.length) {
+        const c: Color | undefined = colors.get(
+          sequence[sequenceAux]?.toString()
+        );
+        handleLights(c);
+        sequenceAux = sequenceAux + 1;
+      } else {
+        clearInterval(interval);
+        setPlay(true);
+      }
+    }, 600);
+  };
 
- const handleMove = (e: MouseEvent<HTMLDivElement>) => {
+  const handleMove = (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     const selected: string = (e.target as HTMLDivElement).id;
     const c: Color | undefined = colors.get(selected);
@@ -111,50 +141,48 @@ export const Game = () => {
         setSequence([...sequence, Math.floor(Math.random() * (5 - 1)) + 1]);
         setPosition(0);
         setScore(score + 1);
-        console.log(score);
       } else {
         setPosition(position + 1);
       }
     } else {
+      checkHighScore();
       setPosition(0);
       setSequence([Math.floor(Math.random() * (5 - 1)) + 1]);
       setScore(0);
-      console.log(score);
     }
   };
 
-
   return (
-    <div className = {styles.outer}>
-    <div className={styles.container}>
-      <div
-        className={styles.colors}
-        id="1"
-        style={{ backgroundImage: `url(${green})` }}
-        onClick= {play === true ? handleMove : undefined}
-      ></div>
-      <div
-        className={styles.colors}
-        id="2"
-        style={{ backgroundImage: `url(${red})` }}
-        onClick= {play === true ? handleMove : undefined}
-      ></div>
-      <div
-        className={styles.colors}
-        id="3"
-        style={{ backgroundImage: `url(${yellow})` }}
-        onClick= {play === true ? handleMove : undefined}
-      ></div>
-      <div
-        className={styles.colors}
-        id="4"
-        style={{ backgroundImage: `url(${blue})` }}
-        onClick= {play === true ? handleMove : undefined}
-      ></div>
-    </div>
-    <div className = {styles.score}>
-      <span>{`SCORE: ${score}`}</span>
-    </div>
+    <div className={styles.outer}>
+      <div className={styles.container}>
+        <div
+          className={styles.colors}
+          id="1"
+          style={{ backgroundImage: `url(${green})` }}
+          onClick={play === true ? handleMove : undefined}
+        ></div>
+        <div
+          className={styles.colors}
+          id="2"
+          style={{ backgroundImage: `url(${red})` }}
+          onClick={play === true ? handleMove : undefined}
+        ></div>
+        <div
+          className={styles.colors}
+          id="3"
+          style={{ backgroundImage: `url(${yellow})` }}
+          onClick={play === true ? handleMove : undefined}
+        ></div>
+        <div
+          className={styles.colors}
+          id="4"
+          style={{ backgroundImage: `url(${blue})` }}
+          onClick={play === true ? handleMove : undefined}
+        ></div>
+      </div>
+      <div className={styles.score}>
+        <span>{`SCORE: ${score}`}</span>
+      </div>
     </div>
   );
 };

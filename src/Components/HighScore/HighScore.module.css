@@ -1,0 +1,40 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    height: 95vh;
+    
+}
+
+.text {
+    font-family: "pixelfont";
+    font-size: larger;
+    color: #ead911;
+    text-align: center;
+    
+}
+
+input {
+    border: none;
+    background: transparent;
+    outline: none;
+    text-transform: uppercase;
+    caret-color: transparent;
+}
+
+form {
+    margin-top: 30px;
+}
+
+input::placeholder {
+    font-family: "pixelfont";
+    font-size: larger;
+    color: #ead911;
+    text-align: center;
+}
+
+.links {
+    text-decoration: none;
+  }
