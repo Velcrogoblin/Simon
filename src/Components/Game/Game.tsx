@@ -106,8 +106,9 @@ export const Game = () => {
 
   const checkHighScore = () => {
     const lowerScore: Players | undefined = leaderBoard?.find((p) => p.score < score);
-    if (lowerScore !== undefined) {
-      // sessionStorage.setItem("player", JSON.stringify(lowerScore.id));
+    const newScore: Players | undefined = leaderBoard?.reduce((prev, curr) => prev.score < curr.score ? prev : curr);
+    if (lowerScore !== undefined && newScore !== undefined) {
+      sessionStorage.setItem("player", JSON.stringify(newScore.id));
       sessionStorage.setItem("score", JSON.stringify(score));
       navigate("/highScore");
     }

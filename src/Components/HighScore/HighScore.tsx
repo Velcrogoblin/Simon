@@ -8,18 +8,20 @@ export const HighScore = () => {
 const navigate = useNavigate();
 
 const [newHigh, setNewHigh] = useState<Player>({
+    id: 0,
     name:"",
     score: 0
 });
 
 
 type Player = {
+    id: number | undefined,
     name: string,
     score: number | undefined
   }
 
     useEffect(() => {
-        setNewHigh({...newHigh, score: JSON.parse(sessionStorage.getItem('score') || "")});
+        setNewHigh({...newHigh, score: JSON.parse(sessionStorage.getItem('score') || ""), id: JSON.parse(sessionStorage.getItem('player') || "")});
     }, [])
 
 const handleChange = (e:React.FormEvent<HTMLInputElement>) => {
@@ -29,8 +31,7 @@ const handleChange = (e:React.FormEvent<HTMLInputElement>) => {
 
 const handleSubmit = async () => {
     try {
-        console.log(newHigh);
-        await axios.post(VITE_URL_PLAYERS, newHigh);
+        await axios.put(VITE_URL_PLAYERS, newHigh);
         navigate("/game");
     } catch(error) {
         alert("Something went wrong");
