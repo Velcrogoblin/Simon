@@ -18,6 +18,7 @@ export const LeaderBoard = () => {
     useEffect (() => {
         axios.get(VITE_URL_PLAYERS)
         .then ((res) => {
+          console.log(res.data);
           setLeaderBoard(res.data.sort((r1: Players, r2: Players) => (r1.score < r2.score) ? 1 : (r1.score > r2.score) ? -1 : 0))
         })
       },[])
