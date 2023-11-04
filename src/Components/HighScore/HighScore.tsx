@@ -26,7 +26,6 @@ type Player = {
 
 const handleChange = (e:React.FormEvent<HTMLInputElement>) => {
     setNewHigh({...newHigh, name: e.currentTarget.value})
-    console.log(newHigh);
 }
 
 const handleSubmit = async () => {
