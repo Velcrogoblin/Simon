@@ -31,7 +31,7 @@ const handleChange = (e:React.FormEvent<HTMLInputElement>) => {
 const handleSubmit = async () => {
     try {
         await axios.put(VITE_URL_PLAYERS, newHigh);
-        navigate("/game");
+        navigate("/");
     } catch(error) {
         alert("Something went wrong");
     }

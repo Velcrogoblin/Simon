@@ -1,0 +1,34 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    height: 95vh;
+    
+}
+
+.title {
+    font-size: 2em;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+span {
+    font-family: "pixelfont";
+    font-size: medium;
+    color: #ead911;
+    text-align: center;
+    
+}
+
+.links {
+    text-decoration: none;
+  }

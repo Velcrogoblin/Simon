@@ -104,13 +104,15 @@ export const Game = () => {
     }, 400);
   };
 
-  const checkHighScore = () => {
+  const lost = () => {
     const lowerScore: Players | undefined = leaderBoard?.find((p) => p.score < score);
     const newScore: Players | undefined = leaderBoard?.reduce((prev, curr) => prev.score < curr.score ? prev : curr);
     if (lowerScore !== undefined && newScore !== undefined) {
       sessionStorage.setItem("player", JSON.stringify(newScore.id));
       sessionStorage.setItem("score", JSON.stringify(score));
       navigate("/highScore");
+    } else {
+      navigate("/lost");
     }
   }
 
@@ -146,10 +148,7 @@ export const Game = () => {
         setPosition(position + 1);
       }
     } else {
-      checkHighScore();
-      setPosition(0);
-      setSequence([Math.floor(Math.random() * (5 - 1)) + 1]);
-      setScore(0);
+      lost();
     }
   };
 
